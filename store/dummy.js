@@ -4,8 +4,7 @@ const db = {
             id: 1,
             name: 'Carlos'
         }
-    ]
-
+    ],
 }
 
 const list =(tabla) =>{
@@ -18,8 +17,13 @@ const get = (tabla, id) =>{
 }
 
 const upsert = (tabla, data) =>{
+    if(!db[tabla]){
+        db[tabla] = []
+    }
     db[tabla].push(data)
     return data
+
+    console.log(db)
 }
 
 const remove = (tabla, id) =>{

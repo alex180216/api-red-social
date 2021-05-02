@@ -2,6 +2,7 @@ const {nanoid} = require('nanoid')
 
 const store = require('../../../store/dummy')
 const response = require('../../network/response')
+const {newAuth} = require('../auth/controller')
 
 
 
@@ -31,11 +32,12 @@ const getUserById  = async (req, res) =>{
 
 //añadir un usuario
 const addNewUser = async (req, res) =>{
-    if(!req.body.name || !req.body.userName ){
+    if(!req.body.name || !req.body.username ){
         response.error(req, res, 'Hey! necesitas un nombre y un userName', 500)
     }else{
         const newUser = {
-            name: req.body.name
+            name: req.body.name,
+            username: req.body.username //Esto lo agregamos con el auth
         }
         //evaluamos si envia un id
         if(req.body.id){
@@ -44,19 +46,27 @@ const addNewUser = async (req, res) =>{
             newUser.id = nanoid()
         }
 
-        //evaluamos si ya existe el id
-        const idConseguido = await store.get(TABLA, newUser)
-        if(!idConseguido){
-            const userSaved = await store.upsert(TABLA, newUser)
-            if(!userSaved){
-                response.error(req, res, 'Ups, ocurrió un error, no se pudo añadir el usuario', 500)
-            }else{
-                response.success(req, res, 'Usuario añadido con exito', 200)
-            }
-        }else{
-            response.error(req, res, 'Ese id ya existe, prueba con otro', 500)
-        }
+        
+        console.log(newUser)
 
+
+        if(req.body.password || req.body.username){
+            const userAuthSaved = await newAuth({
+                id: newUser.id,
+                username: req.body.username,
+                password: req.body.password
+            })
+            console.log(userAuthSaved)
+        }
+        
+        const userSaved = await store.upsert(TABLA, newUser)
+        
+        
+        if(!userSaved){
+            response.error(req, res, 'Ups, ocurrió un error, no se pudo añadir el usuario', 500)
+        }else{
+            response.success(req, res, 'Usuario añadido con exito', 200)
+        }
         
     }
     

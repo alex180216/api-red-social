@@ -8,7 +8,7 @@ const app = express()
 const port =config.PORT
 
 
-app.use(bodyParser.json())
+app.use(express.json())
 router(app)
 
 app.listen(port, ()=>{

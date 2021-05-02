@@ -1,12 +1,16 @@
 const express = require('express')
 const router = express.Router()
 const response = require('../../network/response')
-const controller = require('./controller')
+const {list, getUserById, addNewUser, deleteUserById} = require('./controller')
 
 
 router.get('/', (req, res)=>{
     response.success(req, res, 'Todo Ok con User', 200)
-    response.error(req, res, 'Ocurrió un error', 500)
 })
+
+router.get('/getUserList', list)
+router.get('/getUserById/:id', getUserById)
+router.post('/addNewUser', addNewUser)
+router.delete('/deleteUserById/:id', deleteUserById)
 
 module.exports = router

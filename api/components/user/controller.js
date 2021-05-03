@@ -38,7 +38,6 @@ const addNewUser = async (req, res) =>{
         const newUser = {
             name: req.body.name,
             username: req.body.username, //Esto lo agregamos con el auth
-            password:req.body.password
         }
         //evaluamos si envia un id
         if(req.body.id){

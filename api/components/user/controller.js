@@ -37,7 +37,8 @@ const addNewUser = async (req, res) =>{
     }else{
         const newUser = {
             name: req.body.name,
-            username: req.body.username //Esto lo agregamos con el auth
+            username: req.body.username, //Esto lo agregamos con el auth
+            password:req.body.password
         }
         //evaluamos si envia un id
         if(req.body.id){
@@ -46,8 +47,6 @@ const addNewUser = async (req, res) =>{
             newUser.id = nanoid()
         }
 
-        
-        console.log(newUser)
 
 
         if(req.body.password || req.body.username){
@@ -56,7 +55,6 @@ const addNewUser = async (req, res) =>{
                 username: req.body.username,
                 password: req.body.password
             })
-            console.log(userAuthSaved)
         }
         
         const userSaved = await store.upsert(TABLA, newUser)

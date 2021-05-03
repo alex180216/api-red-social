@@ -22,8 +22,20 @@ const upsert = (tabla, data) =>{
     }
     db[tabla].push(data)
     return data
+}
 
-    console.log(db)
+const query = (tabla, q) =>{
+    if(!db[tabla]){
+        return null
+    }
+    const index = db[tabla].findIndex(item => item.username == q)
+    if(index>=0){
+        const elementoUbicado = db[tabla][index]
+        return elementoUbicado
+    }else{
+        return null
+    }
+    
 }
 
 const remove = (tabla, id) =>{
@@ -40,5 +52,6 @@ module.exports = {
     list,
     get,
     upsert,
-    remove
+    remove,
+    query
 }

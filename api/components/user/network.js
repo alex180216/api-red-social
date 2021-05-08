@@ -2,13 +2,14 @@ const express = require('express')
 const router = express.Router()
 const response = require('../../network/response')
 const {list, getUserById, addNewUser, deleteUserById} = require('./controller')
+const {verifyToken} = require('../../middlewares/index')
 
 
 router.get('/', (req, res)=>{
     response.success(req, res, 'Todo Ok con User', 200)
 })
 
-router.get('/getUserList', list)
+router.get('/getUserList', verifyToken,  list)
 router.get('/getUserById/:id', getUserById)
 router.post('/addNewUser', addNewUser)
 router.delete('/deleteUserById/:id', deleteUserById)

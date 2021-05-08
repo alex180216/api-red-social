@@ -11,6 +11,7 @@ const TABLA ='user'
 
 //obtener lista de usuarios
 const list = async (req, res) =>{
+    
     const lista = await store.list(TABLA)
 
     if(!lista){

@@ -1,1 +1,1 @@
-//verificar si ya existe la data que nos manda (validator)
+//verificar si ya existe la data que nos manda (validator

@@ -1,4 +1,7 @@
 const express = require('express')
+
+const {verifyPassword} = require('../../middlewares/index')
+
 const router = express.Router()
 
 const {login, listAuth} = require('./controller')

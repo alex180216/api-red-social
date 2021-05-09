@@ -1,6 +1,6 @@
 const {nanoid} = require('nanoid')
 
-const store = require('../../../store/dummy')
+const store = require('../../../store/mysql')
 const response = require('../../network/response')
 const {newAuth} = require('../auth/controller')
 
@@ -13,7 +13,7 @@ const TABLA ='user'
 const list = async (req, res) =>{
     
     const lista = await store.list(TABLA)
-
+    
     if(!lista){
         response.error(req, res, 'Ocurrió un error', 500)
     }else{

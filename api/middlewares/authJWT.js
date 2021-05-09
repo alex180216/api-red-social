@@ -2,7 +2,7 @@
 //autorizador
 
 //creamos una funcion que se encargue de verificar si se esta enviando un token
-const { verify } = require('jsonwebtoken')
+const { verify, decode } = require('jsonwebtoken')
 
 const response = require('../network/response')
 const config = require('../config')
@@ -16,12 +16,23 @@ module.exports = verifyToken = async(req, res, next) =>{
     if(!token){
         response.error(req, res, {message: 'No se recibe ningun token'}, 403)
     }else{
-        const decoded = verify(token, config.JWT_SECRET)
+        const decoded = verify(token, config.JWT_SECRET, (err, decoded) =>{
+            if(err) return err.name
+            return decoded
+        })
+
         console.log(decoded)
-        if(decoded.id !== req.body.id){
-            response.error(req, res, {message: 'No puedes hacer esto'}, 500)
+        if(decoded == 'TokenExpiredError'){
+            response.error(req, res, {message: 'Access-Token vencido'}, 500)
+        }else{
+            if(decoded.id !== req.body.id){
+                response.error(req, res, {message: 'No puedes hacer esto'}, 500)
+            }
         }
+        
     }
     
     next()//para que continue con la siguiente funcion en routes
 }
+
+

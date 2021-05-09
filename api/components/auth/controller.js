@@ -1,6 +1,6 @@
 const {hash, compare} = require('bcrypt')
 
-const store = require('../../../store/dummy')
+const store = require('../../../store/mysql')
 const response = require('../../network/response')
 const {generateToken} = require('../../utils/token')
 
@@ -35,8 +35,8 @@ const listAuth = async (req, res) =>{
 //Login de usuario y generacion de sesion id o Token
 const login = async (req, res) =>{
     if(req.body.username && req.body.password){
-        const data = await store.query(TABLA, req.body.username)
-
+        const data = JSON.parse(JSON.stringify(await store.query(TABLA, req.body.username)))
+        
         const sonIguales = await compare(req.body.password, data.password)
         if(sonIguales){
             //GENERAMOS TOKEN

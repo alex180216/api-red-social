@@ -18,17 +18,19 @@ module.exports = verifyToken = async(req, res, next) =>{
     }else{
         const decoded = verify(token, config.JWT_SECRET, (err, decoded) =>{
             if(err) return err.name
+
+            req.user = decoded
             return decoded
         })
 
-        console.log(decoded)
+        //console.log(decoded)
         if(decoded == 'TokenExpiredError'){
             response.error(req, res, {message: 'Access-Token vencido'}, 500)
-        }else{
+        }/* else{
             if(decoded.id !== req.body.id){
                 response.error(req, res, {message: 'No puedes hacer esto'}, 500)
             }
-        }
+        } */
         
     }
     

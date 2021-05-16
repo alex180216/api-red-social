@@ -86,9 +86,10 @@ const deleteUserById = async (req, res) =>{
        
 }
 
+
 module.exports ={
     list,
     getUserById,
     addNewUser,
-    deleteUserById
+    deleteUserById,
 }

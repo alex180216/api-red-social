@@ -1,7 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const response = require('../../network/response')
-const {list, getUserById, addNewUser, deleteUserById} = require('./controller')
+const {list, getUserById, addNewUser, deleteUserById,
+     followTo} = require('./controller')
 const {verifyToken} = require('../../middlewares/index')
 
 
@@ -12,6 +13,8 @@ router.get('/', (req, res)=>{
 router.get('/getUserList', verifyToken,  list)
 router.get('/getUserById/:id', getUserById)
 router.post('/addNewUser', addNewUser)
-router.delete('/deleteUserById/:id', deleteUserById)
+router.delete('/deleteUserById/:idUserToFollow', deleteUserById)
+
+
 
 module.exports = router

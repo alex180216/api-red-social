@@ -44,7 +44,7 @@ const get = (table, id) =>{
 //Agregar uno nuevo
 const upsert = (table, data) =>{
     return new Promise((resolve, reject) =>{
-        connection.query(`INSERT INTO ${table} SET ?`, data, (err, results) =>{
+        connection.query(`INSERT INTO ${table} VALUES SET ? `, data, (err, results) =>{
             if(err) return reject(err)
             resolve(results)
         })
@@ -78,11 +78,34 @@ const query = (table, query) =>{
     })
 }
 
+//funcion followTo -> seguir a un usuario
+const follow = (table, query) =>{
+    return new Promise((resolve, reject) =>{
+        connection.query(`INSERT INTO ${table} VALUES ('${query.user_from}', '${query.user_to}')`, (err, results) =>{
+            if(err) return reject(err)
+            resolve(results)
+        })
+    })
+}
+
+//obtener un objeto de una tabla relacional desde el id
+const getRelationship = (table, id, name_column) =>{
+    return new Promise((resolve, reject) =>{
+        connection.query(`SELECT * FROM ${table} WHERE ${name_column} = '${id}'`, (err, results) =>{
+            if(err) return reject(err)
+            resolve(results)
+        })
+    })
+}
+
+
 
 
 module.exports = {
     list,
     get,
     upsert,
-    query
+    query,
+    follow,
+    getRelationship
 }

@@ -23,7 +23,7 @@ module.exports = verifyToken = async(req, res, next) =>{
             return decoded
         })
 
-        //console.log(decoded)
+        console.log(decoded)
         if(decoded == 'TokenExpiredError'){
             response.error(req, res, {message: 'Access-Token vencido'}, 500)
         }/* else{

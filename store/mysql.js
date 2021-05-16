@@ -31,6 +31,8 @@ const list = (table) =>{
     })
 }
 
+
+
 //obtener un objeto de la tabla desde su id
 const get = (table, id) =>{
     return new Promise((resolve, reject) =>{
@@ -97,6 +99,22 @@ const getRelationship = (table, id, name_column) =>{
         })
     })
 }
+//(tablaPrincipal, tablaSecundaria,columnaPrincipal, columnaSecundaria, queryPrincipal, querySecundaria)
+//A JOIN ${tablaSecundaria} B ON A.${columnaPrincipal} = '${queryPrincipal}' AND B.${columnaSecundaria} = '${querySecundaria}'
+
+//obtener una lista de objetos desde una tabla relacional
+const getObjectListJOIN = (tablaPrincipal, join) =>{
+    return new Promise((resolve, reject) =>{
+        //SELECT * FROM user A JOIN user_follow B ON A.id = 'sanre' AND B.user_to = '4QSWOZCL3H2YvC11Ts9gg'
+
+        connection.query(`SELECT * FROM ${tablaPrincipal} ${join}`, (err, results) =>{
+            if(err) return reject(err)
+            resolve(results[0])
+        })
+    })
+}
+
+
 
 
 
@@ -107,5 +125,6 @@ module.exports = {
     upsert,
     query,
     follow,
-    getRelationship
+    getRelationship,
+    getObjectListJOIN
 }

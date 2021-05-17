@@ -46,7 +46,7 @@ const get = (table, id) =>{
 //Agregar uno nuevo
 const upsert = (table, data) =>{
     return new Promise((resolve, reject) =>{
-        connection.query(`INSERT INTO ${table} VALUES SET ? `, data, (err, results) =>{
+        connection.query(`INSERT INTO ${table} SET ?`, data, (err, results) =>{
             if(err) return reject(err)
             resolve(results)
         })
